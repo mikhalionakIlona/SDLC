@@ -1,0 +1,58 @@
+@startuml
+skinparam classAttributeIconSize 0
+
+class Main {
+    +main(args: String[])
+}
+
+class PostponementModel {
+    -age: int
+    -estimatedPostponements: long
+    -pcs: PropertyChangeSupport
+    +setAge(age: int)
+    +getAge(): int
+    +getEstimatedPostponements(): long
+    +addPropertyChangeListener(listener)
+}
+
+interface PropertyChangeListener {
+    +propertyChange(evt: PropertyChangeEvent)
+}
+
+class MainView {
+    -ageLabel: JLabel
+    -resultLabel: JLabel
+    -inputButton: JButton
+    +getInputButton(): JButton
+    +updateResult(age: int, result: long)
+    +showError(message: String)
+}
+
+class InputDialog {
+    -ageField: JTextField
+    -confirmed: boolean
+    +isConfirmed(): boolean
+    +getAge(): int
+}
+
+class PostponementController {
+    -model: PostponementModel
+    -view: MainView
+    +openInputDialog()
+    +propertyChange(evt: PropertyChangeEvent)
+}
+
+Main --> MainView : creates
+Main --> PostponementModel : creates
+Main --> PostponementController : creates
+
+PostponementController --> PostponementModel : updates
+PostponementController --> MainView : manages
+PostponementController --> InputDialog : creates
+
+PostponementController ..|> PropertyChangeListener : implements
+PostponementModel --> PropertyChangeListener : notifies
+
+MainView --> PostponementModel : reads state
+
+@enduml

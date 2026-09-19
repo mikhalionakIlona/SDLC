@@ -1,0 +1,15 @@
+.idea/
+*.iml
+
+*.class
+
+out/
+target/
+build/
+
+.vscode/
+
+.DS_Store
+
+*.tmp
+*.log
